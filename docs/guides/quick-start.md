@@ -195,6 +195,8 @@ Type `Y` and press Enter to confirm.
 </TabItem>
 <TabItem label="Nushell">
 
+> Requires Nushell 0.106.0+.
+
 Add the hook to your Nushell configuration:
 
 ```shell
@@ -207,12 +209,16 @@ Alternatively, you can directly generate and append the activation script withou
 vfox activate nu | save --append $nu.config-path
 ```
 
-Or save the activation script to Nushell's vendor autoload directory (Nushell 0.96+):
+Or save the activation script to Nushell's vendor autoload directory:
 
 ```shell
 mkdir ($nu.data-dir | path join "vendor/autoload")
 vfox activate nu | save -f ($nu.data-dir | path join "vendor/autoload/vfox.nu")
 ```
+
+::: tip 💡 Tip
+The direct (`vfox activate nu | save --append ...`) and vendor autoload setups save a static snapshot of the activation script. Unlike the config-directory form, they do not automatically update when vfox is upgraded. After upgrading vfox, re-run the activation command to refresh the script.
+:::
 
 </TabItem>
 </Tabs>

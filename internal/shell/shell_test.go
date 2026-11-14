@@ -135,7 +135,7 @@ func TestNewShell(t *testing.T) {
 		{"zsh", "zsh", Zsh},
 		{"fish", "fish", Fish},
 		{"pwsh", "pwsh", Pwsh},
-		{"powershell", "powershell", Pwsh},
+		{"powershell", "powershell", nil},
 		{"clink", "clink", Clink},
 		{"nu", "nu", Nushell},
 		{"NU upper", "NU", Nushell},

@@ -210,12 +210,18 @@ func TestNushellActivateWithPidCheck(t *testing.T) {
 				t.Error("Missing correct 'get -o hooks.pre_prompt'")
 			}
 
-			// Verify guarded environment variable handling
-			if !strings.Contains(contentStr, "if not ($envData.envsToSet | is-empty)") {
-				t.Error("Missing envsToSet emptiness check")
+			// Verify environment variable loading and unsetting
+			if !strings.Contains(contentStr, "load-env $envData.envsToSet") {
+				t.Error("Missing load-env $envData.envsToSet")
 			}
-			if !strings.Contains(contentStr, "if not ($envData.envsToUnset | is-empty)") {
-				t.Error("Missing envsToUnset emptiness check")
+			if !strings.Contains(contentStr, "hide-env ...$envData.envsToUnset") {
+				t.Error("Missing hide-env ...$envData.envsToUnset")
+			}
+			if strings.Contains(contentStr, "if not ($envData.envsToSet | is-empty)") {
+				t.Error("Unexpected envsToSet emptiness check guard")
+			}
+			if strings.Contains(contentStr, "if not ($envData.envsToUnset | is-empty)") {
+				t.Error("Unexpected envsToUnset emptiness check guard")
 			}
 
 			// Check for PID check block presence/absence
@@ -344,11 +350,17 @@ func TestNushellActivateDirect(t *testing.T) {
 			if !strings.Contains(script, "$env.__VFOX_SHELL = 'nushell'") {
 				t.Error("Missing __VFOX_SHELL declaration")
 			}
-			if !strings.Contains(script, "if not ($envData.envsToSet | is-empty)") {
-				t.Error("Missing envsToSet emptiness check")
+			if !strings.Contains(script, "load-env $envData.envsToSet") {
+				t.Error("Missing load-env $envData.envsToSet")
 			}
-			if !strings.Contains(script, "if not ($envData.envsToUnset | is-empty)") {
-				t.Error("Missing envsToUnset emptiness check")
+			if !strings.Contains(script, "hide-env ...$envData.envsToUnset") {
+				t.Error("Missing hide-env ...$envData.envsToUnset")
+			}
+			if strings.Contains(script, "if not ($envData.envsToSet | is-empty)") {
+				t.Error("Unexpected envsToSet emptiness check guard")
+			}
+			if strings.Contains(script, "if not ($envData.envsToUnset | is-empty)") {
+				t.Error("Unexpected envsToUnset emptiness check guard")
 			}
 
 			hasPidCheck := strings.Contains(script, "# Check if PID changed") &&

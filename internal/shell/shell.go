@@ -51,7 +51,7 @@ func NewShell(name string) Shell {
 		return Bash
 	case "zsh":
 		return Zsh
-	case "pwsh", "powershell":
+	case "pwsh":
 		return Pwsh
 	case "fish":
 		return Fish

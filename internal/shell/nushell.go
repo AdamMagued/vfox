@@ -30,12 +30,8 @@ export-env {
     if ($envData | is-empty) {
       return
     }
-    if not ($envData.envsToSet | is-empty) {
-      load-env $envData.envsToSet
-    }
-    if not ($envData.envsToUnset | is-empty) {
-      hide-env ...$envData.envsToUnset
-    }
+    load-env $envData.envsToSet
+    hide-env ...$envData.envsToUnset
   }
 
   # Add a pre_prompt hook that calls the above "updateVfoxEnvironment" function.
